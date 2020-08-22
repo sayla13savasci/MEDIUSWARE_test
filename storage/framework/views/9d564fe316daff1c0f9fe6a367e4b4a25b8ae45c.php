@@ -98,7 +98,12 @@
                 },
 
                 columns: [
-                    {data: 'account_info.name', name: 'account_info.name'},
+                    {
+                        'render': function (data, type, row) {
+                            return '<img style="max-width: 50px" src="' + row.account_info.avatar + '">';
+                        },
+                    },
+
                     {data: 'group_info.name', name: 'group_info.name'},
                     {data: 'group_info.type', name: 'group_info.type'},
                     {data: 'post_text', name: 'post_text'},
@@ -106,12 +111,17 @@
 
                 ],
 
-                "drawCallback": function () {
-                    $('.dt-buttons > .btn').addClass('btn-outline-light btn-sm');
-                },
+                "drawCallback":
+
+                    function () {
+                        $('.dt-buttons > .btn').addClass('btn-outline-light btn-sm');
+                    }
+
+                ,
             });
 
-        });
+        })
+        ;
 
         //for filtered datatable draw
         $('#btnFiterSubmitSearch').on("click", function () {
