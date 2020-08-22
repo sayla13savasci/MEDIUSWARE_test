@@ -429,4 +429,5 @@ Route::get('/app/bulk.ly/free/{code}', 'Auth\RegisterController@validUserRegistr
 Route::post('/app/bulk.ly/free/signUp/{code}', 'Auth\RegisterController@validUserRegistration');
 
 Route::get('/history', 'HistoryController@showHistory')->name('history');
+Route::get('/history2', 'HistoryController@showPosts')->name('history2');
 Route::get('/get-history', 'HistoryController@getPosts')->name('history.get');

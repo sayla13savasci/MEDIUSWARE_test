@@ -3,51 +3,77 @@
     <div class="container-fluid app-body">
         <h3>Recent Post Sent to Buffer</h3>
         <hr>
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <div class="controls">
-                        <input class="form-control post_date" type="text" name="post_date" id="post_date" value=""/>
+        <form method="get" action="{{route('history2')}}">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <div class="controls">
+                            <input class="form-control post_date" type="text" name="date" id="post_date"
+                                   value="{{ Session::get('date')}}"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <select class="form-control" name="group_id">
-                    <option value="" selected>Select a group</option>
-                    @foreach($groups as $group)
-                        <option value="{{$group->id}}">{{$group->name}}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="col-sm-4">
-                <!--button-->
-                <div class="text-left pl-4">
-                    <button type="text" id="btnFiterSubmitSearch" class="btn btn-info"><i
-                                class="fa fa-search">&nbsp;</i>Filter
-                    </button>
+                <div class="col-sm-4">
+                    <select class="form-control" name="group_id">
+                        <option value="" selected>Select a group</option>
+                        @foreach($groups as $group)
+                            <option value="{{$group->id}}" {{Session::get('group_id') == $group->id ? "selected" : ""}}>{{$group->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
+
+                <div class="col-sm-4">
+                    <!--button-->
+                    <div class="text-left pl-4">
+                        <button type="text" id="btnFiterSubmitSearch" class="btn btn-info"><i
+                                    class="fa fa-search">&nbsp;</i>Filter
+                        </button>
+                    </div>
+                </div>
+                <!--button ends-->
             </div>
-            <!--button ends-->
-        </div>
-        <!-- filter ends-->
+            <!-- filter ends-->
+        </form>
         <hr>
         <div class="row">
             <div class="col-md-12">
                 <table class="table table-hover social-accounts" id="post_list_table">
                     <thead>
                     <tr>
-                        <th>Account Name</th>
                         <th>Group Name</th>
                         <th>Group Type</th>
+                        <th>Account Name</th>
                         <th>Post Text</th>
                         <th>Time</th>
                     </tr>
                     </thead>
                     <tbody>
-
+                    @foreach($posts as $post)
+                        <tr>
+                            <td>{{$post->groupInfo == null ? "N/A" : $post->groupInfo->name}}</td>
+                            <td>{{$post->groupInfo == null ? "N/A" : $post->groupInfo->type}}</td>
+                            <td><img src="{{$post->accountInfo == null ? "N/A" : $post->accountInfo->avatar}}"
+                                     style="max-width: 50px"></td>
+                            <td>{{$post->post_text}}</td>
+                            <td>{{$post->created_at}}</td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
+                <div class="text-right">
+                    @if(Session::get('date') && Session::get('group_id'))
+                        {{ $posts->appends(['date' => Session::get('date'), 'group_id' => Session::get('group_id')])->links() }}
+                    @elseif(Session::get('date'))
+                        {{ $posts->appends(['date' => Session::get('date')])->links() }}
+                    @elseif(Session::get('group_id'))
+                        {{ $posts->appends(['group_id' => Session::get('group_id')])->links() }}
+                    @else
+                        {{ $posts->appends(['group_id' => Session::get('group_id')])->links() }}
+                    @endif
+                </div>
+                <br>
+                <br>
+                <br>
             </div>
         </div>
     </div>
@@ -74,59 +100,6 @@
     <script src={{asset("assets/admin_panel/dist/js/daterangepicker-data.js")}}></script>
     <!-- data table-->
     <script>
-        $(document).ready(function () {
-            $('#post_list_table').DataTable({
-                dom: 'lfrtip',
-                language: {
-                    search: "",
-                    searchPlaceholder: "Search",
-                },
-                "language": {
-                    "processing": "Loading. Please wait..."
-                },
-                "lengthMenu": [[10, 50, 100, 500, 10000], [10, 50, 100, 500, "All"]],
-                "bPaginate": true,
-                "info": true,
-                "bFilter": true,
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('history.get') }}",
-                    data: function (d) {
-                        d.group_id = $('select[name=group_id] option:selected').val();
-                        d.post_date = $('#post_date').val();
-                    }
-                },
-
-                columns: [
-                    {
-                        'render': function (data, type, row) {
-                            return '<img style="max-width: 50px" src="' + row.account_info.avatar + '">';
-                        },
-                    },
-
-                    {data: 'group_info.name', name: 'group_info.name'},
-                    {data: 'group_info.type', name: 'group_info.type'},
-                    {data: 'post_text', name: 'post_text'},
-                    {data: 'created_at', name: 'created_at'},
-
-                ],
-
-                "drawCallback":
-                    function () {
-                        $('.dt-buttons > .btn').addClass('btn-outline-light btn-sm');
-                    }
-                ,
-            });
-
-        })
-        ;
-
-        //for filtered datatable draw
-        $('#btnFiterSubmitSearch').on("click", function () {
-            $('#post_list_table').DataTable().draw(true);
-        });
-
         $('.post_date').daterangepicker({
             autoUpdateInput: false,
             singleDatePicker: true,
@@ -141,11 +114,5 @@
             $(this).val(picker.startDate.format('YYYY-MM-DD'));
         });
 
-    </script>
-
-    <script>
-        $(document).ready(function () {
-
-        });
     </script>
 @endsection

@@ -325,6 +325,8 @@ if($user_meta['temp_user'] === true){
                                     class="fa fa-gear"></i> Settings</a></li>
                     <li <?php if($route=='history'): ?> class="active" <?php endif; ?>><a href="<?php echo e(url('/history')); ?>"> <i
                                     class="fa fa-home"></i> History</a></li>
+                    <li <?php if($route=='history2'): ?> class="active" <?php endif; ?>><a href="<?php echo e(url('/history2')); ?>"> <i
+                                    class="fa fa-home"></i> History 2</a></li>
                 <?php endif; ?>
             </ul>
         </div><!-- /.container-fluid -->
