@@ -179,6 +179,8 @@ return [
         Bulkly\Providers\RouteServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,
 
+        Yajra\Datatables\DatatablesServiceProvider::class,
+
     ],
 
     /*
@@ -228,7 +230,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-
+        'Datatables' => 'Yajra\Datatables\Facades\Datatables',
     ],
 
 ];

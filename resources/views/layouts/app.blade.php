@@ -91,6 +91,13 @@
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'userGuidingLayer', '3592590ID');
     </script>
+    <link href={{asset("assets/admin_panel/vendors/datatables.net-dt/css/jquery.dataTables.min.css")}} rel="stylesheet"
+          type="text/css"/>
+    <link
+            href={{asset("assets/admin_panel/vendors/datatables.net-responsive-dt/css/responsive.dataTables.min.css")}} rel="stylesheet"
+            type="text/css"/>
+    <link href={{asset("assets/admin_panel/vendors/daterangepicker/daterangepicker.css")}} rel="stylesheet"
+          type="text/css"/>
 </head>
 <body>
 <?php
@@ -318,7 +325,6 @@ if($user_meta['temp_user'] === true){
                             <i class="fa fa-user"></i>Social Accounts</a></li>
                     <li @if ($route=='settings') class="active" @endif><a href="{{ url('/settings') }}"> <i
                                     class="fa fa-gear"></i> Settings</a></li>
-
                     <li @if ($route=='history') class="active" @endif><a href="{{ url('/history') }}"> <i
                                     class="fa fa-home"></i> History</a></li>
                 @endif
@@ -678,5 +684,6 @@ if($user_meta['temp_subs'] === true){
         }
     });
 </script>
+@yield('post-js')
 </body>
 </html>

@@ -91,6 +91,13 @@
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'userGuidingLayer', '3592590ID');
     </script>
+    <link href=<?php echo e(asset("assets/admin_panel/vendors/datatables.net-dt/css/jquery.dataTables.min.css")); ?> rel="stylesheet"
+          type="text/css"/>
+    <link
+            href=<?php echo e(asset("assets/admin_panel/vendors/datatables.net-responsive-dt/css/responsive.dataTables.min.css")); ?> rel="stylesheet"
+            type="text/css"/>
+    <link href=<?php echo e(asset("assets/admin_panel/vendors/daterangepicker/daterangepicker.css")); ?> rel="stylesheet"
+          type="text/css"/>
 </head>
 <body>
 <?php
@@ -316,7 +323,6 @@ if($user_meta['temp_user'] === true){
                             <i class="fa fa-user"></i>Social Accounts</a></li>
                     <li <?php if($route=='settings'): ?> class="active" <?php endif; ?>><a href="<?php echo e(url('/settings')); ?>"> <i
                                     class="fa fa-gear"></i> Settings</a></li>
-
                     <li <?php if($route=='history'): ?> class="active" <?php endif; ?>><a href="<?php echo e(url('/history')); ?>"> <i
                                     class="fa fa-home"></i> History</a></li>
                 <?php endif; ?>
@@ -676,5 +682,6 @@ if($user_meta['temp_subs'] === true){
         }
     });
 </script>
+<?php echo $__env->yieldContent('post-js'); ?>
 </body>
 </html>
